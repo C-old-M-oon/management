@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户登陆</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <script type="text/javascript" src="../../static/iview/vue.min.js"></script>
+    <script type="text/javascript" src="../../static/iview/iview.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="login" @keydown.enter="handleSubmit">
+      <div class="login-con">
+        <Card :bordered="false">
+          <p slot="title">
+            <Icon type="log-in"></Icon>
+            欢迎登录
+          </p>
+          <div class="form-con">
+            <i-form ref="loginForm" :model="form" :rules="rules">
+              <form-item prop="userName">
+                <i-input v-model="form.userName" placeholder="请输入用户名">
+                  <span slot="prepend">
+                    <Icon :size="16" type="person"></Icon>
+                  </span>
+                </i-input>
+              </form-item>
+              <form-item prop="password">
+                <i-input type="password" v-model="form.password" placeholder="请输入密码">
+                  <span slot="prepend">
+                    <Icon :size="14" type="locked"></Icon>
+                  </span>
+                </i-input>
+              </form-item>
+              <form-item>
+                <i-button @click="handleSubmit" type="primary" long>登录</i-button>
+              </form-item>
+            </i-form>
+          </div>
+        </Card>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="login.js"></script>
+</body>
+</html>
