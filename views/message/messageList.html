@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>短信列表</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="../main/main.css">
+    <script type="text/javascript" src="../../static/iview/vue.min.js"></script>
+    <script type="text/javascript" src="../../static/iview/iview.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../static/config/config.js"></script>
+    <script type="text/javascript" src="../../static/component/layout.js"></script>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+  <div id="app">
+    <div class="main">
+      <v-head></v-head>
+
+      <div class="layout">
+        <Layout :style="{minHeight: '100vh', flexDirection: 'row'}">
+          <v-slide></v-slide>
+          <Layout>
+            <Header :style="{background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}"></Header>
+            <Content>
+              <Card>
+                <div :style="{height: '600px'}">
+                  <div class="single-page-con" :style="{left: '0px',height: '100%'}">
+                    <div class="single-page">
+                      <Row>
+                        <i-col span="3">
+                          <i-input icon="ios-person-outline" placeholder="电话号码" style="width: 90%" v-model="filter.mobileNumber"></i-input>
+                        </i-col>
+                        <i-col span="5">
+                          <date-picker type="daterange" placement="bottom-start" placeholder="导入时间" style="width: 90%" @on-change="changeTime"></date-picker>
+                        </i-col>
+                        <i-col span="7">
+                          <i-button type="primary" icon="ios-search" @click="search(1)">查找</i-button>
+                          <i-button type="success" icon="ios-cloud-download" @click="download">导出</i-button>
+                        </i-col>
+                      </Row>
+                      <br>
+
+                      <i-table :columns="columns" :data="datas" :loading="dataLoading"></i-table>
+                      <br>
+                      <Page :total="totalRecords" :current="filter.pageNo" @on-change='changePage'></Page>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+
+              </Card>
+            </Content>
+          </Layout>
+        </Layout>
+      </div>
+
+    </div>
+
+  </div>
+
+  
+  <script type="text/javascript" src="messageList.js"></script>
+</body>
+</html>

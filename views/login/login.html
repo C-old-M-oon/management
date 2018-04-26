@@ -7,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="login.css">
     <script type="text/javascript" src="../../static/iview/vue.min.js"></script>
     <script type="text/javascript" src="../../static/iview/iview.min.js"></script>
+    <script type="text/javascript" src="../../static/config/config.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../static/component/layout.js"></script>
 </head>
 <body>
   <div id="app">
@@ -19,8 +22,8 @@
           </p>
           <div class="form-con">
             <i-form ref="loginForm" :model="form" :rules="rules">
-              <form-item prop="userName">
-                <i-input v-model="form.userName" placeholder="请输入用户名">
+              <form-item prop="username">
+                <i-input v-model="form.username" placeholder="请输入用户名">
                   <span slot="prepend">
                     <Icon :size="16" type="person"></Icon>
                   </span>
@@ -32,6 +35,19 @@
                     <Icon :size="14" type="locked"></Icon>
                   </span>
                 </i-input>
+              </form-item>
+              <form-item prop="code">
+                <i-col span="14">
+                  <i-input v-model="form.code" placeholder="请输入验证码">
+                    <span slot="prepend">
+                      <Icon :size="14" type="code"></Icon>
+                    </span>
+                  </i-input>
+                </i-col>
+                <i-col span="8" offset="1">
+                  <img :src="codeSrc" alt="验证码" @click='getCodeSrc'>
+                </i-col>
+                
               </form-item>
               <form-item>
                 <i-button @click="handleSubmit" type="primary" long>登录</i-button>

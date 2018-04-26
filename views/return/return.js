@@ -2,7 +2,7 @@
 * @Author: leeZ
 * @Date:   2018-04-17 11:21:00
 * @Last Modified by:   leeZ
-* @Last Modified time: 2018-04-17 14:50:07
+* @Last Modified time: 2018-04-25 15:38:01
 */
 
 new Vue({
@@ -13,6 +13,19 @@ new Vue({
   },
   data () {
     return {
+      cityList: [],
+      filter: {
+        inputPerson: '',
+        mobileNumber: '',
+        area: '',
+        orderProduct: '',
+        startTime: '',
+        endTime: '',
+        pageNo:1,
+        pageSize: 15
+      },
+      totalRecords: 0,
+      dataLoading: false,
       modal_loading: false,
       modalAdd: false,
       editInfo: {},
@@ -85,29 +98,122 @@ new Vue({
           key: 'inputPerson'
         }
       ],
-      datas: [
-        {
-          mobileNumber: '13433333333',
-          area: '成都',
-          refundPrice: '500.00',
-          unsubscribeState: '成功',
-          refundState: '已退款',
-          orderTime: '2018-4-1',
-          orderProduct: '低消100元档',
-          refundCause: '用户非常非常非常生气，心情非常非常不爽，总之就是想退款了，不想多说，乱七八糟的。强烈要求退款。要求道歉',
-          agentName: '太字节',
-          complainTime: '2018-4-14',
-          submitPerson: '管理员',
-          inputTime: '2018-4-15',
-          inputPerson: '张晓晓'
-        }
-      ]
+      datas: [],
+      editInfo: {
+        mobileNumber: '',
+        area: '',
+        refundPrice: '',
+        unsubscribeState: '',
+        refundState: '',
+        orderTime: '',
+        orderProduct: '',
+        refundCause: '',
+        agentName: '',
+        complainTime: '',
+        submitPerson: ''
+      },
+      uploadUrl: baseUrl + '/xjcu/refund/uploadFile'
     }
   },
   methods: {
+    getCity() {
+      var _that = this
+      axios.get(baseUrl + '/xjcu/tool/getArea', {
+        params: {
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(function(res){
+        res = checkRes(res)
+        if(res.data.status == ERR_OK) {
+           res.data.data.map(item => {
+            _that.cityList.push({
+              key: item,
+              value: item
+            })
+          })
+        }else {
+          _that.$Message.error(res.data.msg)
+        }
+      })
+      .catch(function(err){
+        console.log(err);
+      });
+    },
+    changeTime(time) {
+      if(time.length) {
+        this.filter.startTime = time[0]
+        this.filter.endTime = time[1]
+      }else {
+        this.filter.startTime = ''
+        this.filter.endTime = ''
+      }
+    },
+    search(no) {
+      var _that = this
+      this.filter.pageNo = no
+      this.dataLoading = true
+      axios.get(baseUrl + '/xjcu/refund/get', {
+        params: _that.filter
+      })
+      .then(function(res){
+        if(res.data.status == ERR_OK) {
+          _that.datas = res.data.data.list
+          _that.totalRecords = res.data.data.total
+          _that.dataLoading = false
+        }else {
+          _that.$Message.error(res.data.msg)
+          _that.dataLoading = false
+        }
+      })
+      .catch(function(err){
+        console.log(err)
+      });
+    },
+    changePage(no) {
+      this.search(no)
+    },
     add () {
-      console.log('add')
+      var _that = this
+      this.modal_loading = true
+      axios.get(baseUrl + '/xjcu/refund/add', {
+        params: _that.editInfo
+      })
+      .then(function(res){
+        if(res.data.status == ERR_OK) {
+          _that.$Message.success('添加成功！')
+          _that.search(1)
+          _that.modal_loading = false
+          _that.modalAdd = false
+        }else {
+          _that.$Message.error(res.data.msg)
+          _that.modal_loading = false
+        }
+      })
+      .catch(function(err){
+        console.log(err)
+      });
+    },
+    excelOut() {
+      window.location.href = baseUrl + '/xjcu/refund/excel'
+    },
+    uploadSuccess(res, file, fileList) {
+      console.log(res)
+      if(res.status == ERR_OK) {
+        this.$Message.success('上传成功！')
+        this.search(1)
+      }else {
+        this.$Message.error(res.msg)
+      }
+    },
+    uploadError(res, file, fileList) {
+      console.log('失败：' + res)
+      this.$Message.error('上传失败！')
     }
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      this.getCity()
+    })
   }
-  
-});
+})
