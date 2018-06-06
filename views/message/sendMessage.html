@@ -29,12 +29,30 @@
                 <div :style="{height: '600px'}">
                   <div class="single-page-con" :style="{left: '0px',height: '100%'}">
                     <div class="single-page">
+                      <br>
                       <Row>
-                        <i-col span="7">
-                          <i-button type="primary" icon="ios-arrow-up" @click="send">发送</i-button>
+                        <i-col span="10">
+                          <i-input v-model="message.phones" type="textarea" :rows="8" placeholder="请输入需要发送的号码(用,分隔)"></i-input>
+                        </i-col>
+                        <i-col span="2" push="1">
+                          <br>
+                          <br>
+                          <i-button type="error" icon="ios-arrow-left" @click="reset(0)" long size="large">重置号码</i-button>
+                          <br>
+                          <br>
+                          <br>
+                          <i-button type="warning" icon="ios-arrow-right" @click="reset(1)" long size="large">重置内容</i-button>
+                        </i-col>
+                        <i-col span="10" push="2">
+                          <i-input v-model="message.content" type="textarea" :rows="8" placeholder="请输入短信内容"></i-input>
                         </i-col>
                       </Row>
                       <br>
+                      <Row>
+                        <i-col span="12" push="6">
+                          <i-button type="primary" icon="email" @click="send" long size="large" :disabled='disabled' :loading="loading">发送</i-button>
+                        </i-col>
+                      </Row>
                     </div>
                   </div>
                 </div>

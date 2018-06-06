@@ -2,7 +2,7 @@
 * @Author: leeZ
 * @Date:   2018-04-25 15:42:44
 * @Last Modified by:   leeZ
-* @Last Modified time: 2018-04-26 10:31:02
+* @Last Modified time: 2018-04-26 11:41:49
 */
 
 new Vue({
@@ -87,7 +87,7 @@ new Vue({
       this.search(no)
     },
     download() {
-      
+      window.location.href = baseUrl + '/gzcu/sms/excel'
     }
   }
 })

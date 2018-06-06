@@ -2,7 +2,7 @@
 * @Author: leeZ
 * @Date:   2018-04-17 11:21:00
 * @Last Modified by:   leeZ
-* @Last Modified time: 2018-04-25 15:38:01
+* @Last Modified time: 2018-04-26 11:30:37
 */
 
 new Vue({
@@ -22,7 +22,8 @@ new Vue({
         startTime: '',
         endTime: '',
         pageNo:1,
-        pageSize: 15
+        pageSize: 15,
+        token: localStorage.getItem('token')
       },
       totalRecords: 0,
       dataLoading: false,
@@ -110,7 +111,8 @@ new Vue({
         refundCause: '',
         agentName: '',
         complainTime: '',
-        submitPerson: ''
+        submitPerson: '',
+        token: localStorage.getItem('token')
       },
       uploadUrl: baseUrl + '/xjcu/refund/uploadFile'
     }
