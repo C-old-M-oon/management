@@ -7,4 +7,4 @@
 ## 关于后台数据交互
 一部分页面使用了jq的ajax进行数据交互，登陆时会从后台获取到用户token并存储在本地，之后每次请求都会将此参数带上，由后台判断是否有权限和是否登陆超时
 ## 说明
-该方案已被抛弃，不适用于实际开发，已使用vue2+iview+webpack全套进行开发，详情见另一个系统
+该方案已被抛弃，不适用于实际开发，已使用vue2+iview+webpack全套进行开发，详情见另一个系统[ivue-management](https://github.com/C-old-M-oon/ivue-management)
